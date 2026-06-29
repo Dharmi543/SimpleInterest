@@ -1,61 +1,115 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 :root {
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
-  --bg-surface: var(--surface-2, #ffffff);
-  --bg-inner: var(--surface-1, #f8fafc);
-  --border-color: var(--border, #e2e8f0);
-  --border-focus: var(--border-accent, #3b82f6);
-  --text-main: var(--text-primary, #1e293b);
-  --text-sub: var(--text-secondary, #64748b);
-  --text-muted: var(--text-muted, #94a3b8);
-  --accent: var(--text-accent, #2563eb);
-  --success: var(--text-success, #16a34a);
-  --accent-light: var(--bg-accent, #eff6ff);
+  --bg-app: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-inner: #f8fafc;
+  --border-color: #e2e8f0;
+  --border-focus: #3b82f6;
+  --text-main: #1e293b;
+  --text-sub: #64748b;
+  --text-muted: #94a3b8;
+  --accent: #2563eb;
+  --success: #16a34a;
+  --accent-light: #eff6ff;
 }
 
-h2.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+* {
+  box-sizing: border-box;
+  margin: 0;
   padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.si-calc-card {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* App Container Wrapper */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
   background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-height: 700px) and (min-width: 481px) {
+  .app-container {
+    height: 85vh;
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+  }
+}
+
+/* Sticky App Header */
+.app-header {
+  background: var(--bg-surface);
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+/* Scrollable Form Content */
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  padding-bottom: 40px;
+}
+
+.si-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.si-card-inputs {
+  background: var(--bg-inner);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 600px;
-  margin: 1rem auto;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-}
-
-.si-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-@media (max-width: 480px) {
-  .si-grid { grid-template-columns: 1fr; }
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
 }
 
 .si-field {
   display: flex;
   flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.si-field:last-child {
+  margin-bottom: 0;
 }
 
 .si-field label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--text-sub);
   margin-bottom: 6px;
 }
 
@@ -67,26 +121,27 @@ h2.sr-only {
 
 .si-input-wrapper input {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 14px;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 10px;
+  font-size: 15px;
   color: var(--text-main);
-  background: transparent;
+  background: var(--bg-surface);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
 }
 
 .si-input-wrapper input:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .si-input-wrapper input[type="date"] {
   position: absolute;
   right: 12px;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   opacity: 0;
   cursor: pointer;
   padding: 0;
@@ -96,7 +151,6 @@ h2.sr-only {
   position: absolute;
   right: 14px;
   pointer-events: none;
-  color: var(--text-sub);
   font-size: 16px;
 }
 
@@ -104,25 +158,17 @@ h2.sr-only {
   font-size: 11px;
   color: var(--success);
   margin-top: 5px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-weight: 500;
 }
 
-.duration-line {
-  margin: 1.5rem 0;
-  padding-top: 1rem;
-  border-top: 1px dashed var(--border-color);
-}
-
+/* UI Output Components */
 .duration-badge {
   display: inline-flex;
-  align-items: center;
   font-size: 13px;
   font-weight: 600;
   color: var(--accent);
   background: var(--accent-light);
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   margin-bottom: 10px;
 }
@@ -130,11 +176,12 @@ h2.sr-only {
 .formula-box {
   background: var(--bg-inner);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 13px;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12px;
   color: var(--text-sub);
-  line-height: 1.5;
+  line-height: 1.4;
+  margin-bottom: 20px;
 }
 
 .formula-box span {
@@ -142,41 +189,34 @@ h2.sr-only {
   font-weight: 600;
 }
 
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 1.5rem;
+.metric-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-@media (max-width: 480px) {
-  .metric-grid { grid-template-columns: 1fr; }
-}
-
-.metric {
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: var(--bg-inner);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 1.25rem 1rem;
-  text-align: center;
+  border-radius: 12px;
+  padding: 14px 16px;
 }
 
 .metric-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-sub);
-  margin: 0 0 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .metric-value {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-main);
-  margin: 0;
 }
-
 .metric-value.accent { color: var(--accent); }
 .metric-value.success { color: var(--success); }
 
@@ -184,74 +224,114 @@ h2.sr-only {
   font-size: 13px;
   color: var(--text-muted);
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+/* Fixed Footer Action Button */
+.app-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.btn-calc {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.btn-calc:active {
+  background: var(--primary-hover);
+  transform: scale(0.99);
 }
 </style>
 
-<h2 class="sr-only">Simple interest calculator — SI = P × n × r / 100, where n is months and r is decimal rate.</h2>
+<div class="app-container">
+  <header class="app-header">
+    <h1>Interest Calculator</h1>
+  </header>
 
-<div class="si-calc-card">
-  <div class="si-grid">
-    <div class="si-field">
-      <label for="principal">Principal Amount (₹)</label>
-      <div class="si-input-wrapper">
-        <input type="number" id="principal" placeholder="e.g. 50000" min="0" oninput="calc()">
+  <div class="app-content">
+    <div class="si-group-title">Parameters</div>
+    <div class="si-card-inputs">
+      <div class="si-field">
+        <label for="principal">Principal Amount (₹)</label>
+        <div class="si-input-wrapper">
+          <input type="number" id="principal" placeholder="e.g. 50000" min="0">
+        </div>
+      </div>
+      <div class="si-field">
+        <label for="rate">Rate of Interest (r, decimal)</label>
+        <div class="si-input-wrapper">
+          <input type="number" id="rate" placeholder="e.g. 0.08" min="0" step="0.001">
+        </div>
       </div>
     </div>
-    <div class="si-field">
-      <label for="rate">Rate of Interest (r, decimal)</label>
-      <div class="si-input-wrapper">
-        <input type="number" id="rate" placeholder="e.g. 0.08" min="0" step="0.001" oninput="calc()">
+
+    <div class="si-group-title">Timeline</div>
+    <div class="si-card-inputs">
+      <div class="si-field">
+        <label for="startDateTxt">Start Date (DD-MM-YYYY)</label>
+        <div class="si-input-wrapper">
+          <input type="text" id="startDateTxt" placeholder="DD-MM-YYYY" maxlength="10">
+          <input type="date" id="startDatePicker" tabindex="-1">
+          <span class="si-calendar-btn">📅</span>
+        </div>
+      </div>
+      <div class="si-field">
+        <label for="endDateTxt">End Date (DD-MM-YYYY)</label>
+        <div class="si-input-wrapper">
+          <input type="text" id="endDateTxt" placeholder="DD-MM-YYYY" maxlength="10">
+          <input type="date" id="endDatePicker" tabindex="-1">
+          <span class="si-calendar-btn">📅</span>
+        </div>
+        <p class="today-tag" id="todayTag" style="display:none">● Set to Today</p>
       </div>
     </div>
-  </div>
-  
-  <div class="si-grid">
-    <div class="si-field">
-      <label for="startDateTxt">Start Date (DD-MM-YYYY)</label>
-      <div class="si-input-wrapper">
-        <input type="text" id="startDateTxt" placeholder="DD-MM-YYYY" maxlength="10">
-        <input type="date" id="startDatePicker" tabindex="-1">
-        <span class="si-calendar-btn">📅</span>
+
+    <div id="outputBlock" style="display:none">
+      <div class="si-group-title">Breakdown</div>
+      <span class="duration-badge" id="durationText"></span>
+      <div class="formula-box" id="formulaBox"></div>
+
+      <div class="si-group-title">Results</div>
+      <div class="metric-list">
+        <div class="metric-row">
+          <span class="metric-label">Principal</span>
+          <span class="metric-value" id="r-principal">—</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Simple Interest</span>
+          <span class="metric-value accent" id="r-interest">—</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Total Amount</span>
+          <span class="metric-value success" id="r-total">—</span>
+        </div>
       </div>
     </div>
-    <div class="si-field">
-      <label for="endDateTxt">End Date (DD-MM-YYYY)</label>
-      <div class="si-input-wrapper">
-        <input type="text" id="endDateTxt" placeholder="DD-MM-YYYY" maxlength="10">
-        <input type="date" id="endDatePicker" tabindex="-1">
-        <span class="si-calendar-btn">📅</span>
-      </div>
-      <p class="today-tag" id="todayTag" style="display:none">● Today</p>
-    </div>
+    
+    <p class="hint" id="hint">Fill out details above and click calculate.</p>
   </div>
 
-  <div class="duration-line" id="durationLine" style="display:none">
-    <span class="duration-badge" id="durationText"></span>
-    <div class="formula-box" id="formulaBox"></div>
-  </div>
-
-  <div class="metric-grid" id="results" style="display:none">
-    <div class="metric">
-      <p class="metric-label">Principal</p>
-      <p class="metric-value" id="r-principal">—</p>
-    </div>
-    <div class="metric">
-      <p class="metric-label">Interest</p>
-      <p class="metric-value accent" id="r-interest">—</p>
-    </div>
-    <div class="metric">
-      <p class="metric-label">Total Payable</p>
-      <p class="metric-value success" id="r-total">—</p>
-    </div>
-  </div>
-  <p class="hint" id="hint">Enter principal, rate, and valid dates to compute metrics.</p>
+  <footer class="app-footer">
+    <button class="btn-calc" onclick="calc()">Calculate</button>
+  </footer>
 </div>
 
 <script>
 const fmt = v => '₹' + Number(v.toFixed(2)).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
 
-// Date formatting helpers
 function parseDMY(str) {
   if (!str) return null;
   const parts = str.split('-');
@@ -271,7 +351,6 @@ function formatDMY(date) {
   return `${d}-${m}-${y}`;
 }
 
-// Set up UI components
 const today = new Date();
 const todayStrTxt = formatDMY(today);
 
@@ -281,12 +360,12 @@ const endTxt = document.getElementById('endDateTxt');
 const endPick = document.getElementById('endDatePicker');
 const todayTag = document.getElementById('todayTag');
 
-// Set End Date default to Today
+// Init values
 endTxt.value = todayStrTxt;
 endPick.value = today.toISOString().split('T')[0];
 checkTodayTag();
 
-// Input Auto-formatting for text fields (adds dashes automatically)
+// Input dynamic mask logic
 [startTxt, endTxt].forEach(input => {
   input.addEventListener('input', (e) => {
     let val = e.target.value.replace(/\D/g, '');
@@ -297,18 +376,16 @@ checkTodayTag();
     }
     e.target.value = val;
     
-    // Update matching picker if date text becomes completely valid
     const parsed = parseDMY(val);
     const picker = input === startTxt ? startPick : endPick;
     if (parsed) {
       picker.value = parsed.toISOString().split('T')[0];
     }
     checkTodayTag();
-    calc();
   });
 });
 
-// Native Picker Sync
+// Picker listeners
 [startPick, endPick].forEach(picker => {
   picker.addEventListener('input', (e) => {
     if (!e.target.value) return;
@@ -316,12 +393,11 @@ checkTodayTag();
     const txtInput = picker === startPick ? startTxt : endTxt;
     txtInput.value = formatDMY(dateObj);
     checkTodayTag();
-    calc();
   });
 });
 
 function checkTodayTag() {
-  todayTag.style.display = (endTxt.value === todayStrTxt) ? 'flex' : 'none';
+  todayTag.style.display = (endTxt.value === todayStrTxt) ? 'block' : 'none';
 }
 
 function monthsBetween(start, end) {
@@ -337,20 +413,19 @@ function calc() {
   const end = parseDMY(endTxt.value);
 
   const hint = document.getElementById('hint');
-  const results = document.getElementById('results');
-  const durationLine = document.getElementById('durationLine');
+  const outputBlock = document.getElementById('outputBlock');
 
   if (!P || isNaN(r) || !start || !end) {
-    results.style.display = 'none';
-    durationLine.style.display = 'none';
-    hint.textContent = 'Enter principal, rate, and valid start/end dates to calculate.';
+    outputBlock.style.display = 'none';
+    hint.style.display = 'block';
+    hint.textContent = 'Please enter valid numbers and completed dates (DD-MM-YYYY).';
     return;
   }
 
   if (end <= start) {
-    results.style.display = 'none';
-    durationLine.style.display = 'none';
-    hint.textContent = 'End date must fall after the selected start date.';
+    outputBlock.style.display = 'none';
+    hint.style.display = 'block';
+    hint.textContent = 'End date must be after the start date.';
     return;
   }
 
@@ -366,14 +441,21 @@ function calc() {
 
   document.getElementById('durationText').textContent = `Duration: ${durStr} (n = ${n.toFixed(2)} months)`;
   document.getElementById('formulaBox').innerHTML =
-    `SI = P × n × r ÷ 100 &nbsp;=&nbsp; <span>${fmt(P)}</span> × <span>${n.toFixed(2)}</span> × <span>${r}</span> ÷ 100 = <span>${fmt(SI)}</span>`;
+    `SI = P × n × r ÷ 100 <br>= <span>${fmt(P)}</span> × <span>${n.toFixed(2)}</span> × <span>${r}</span> ÷ 100 <br>= <span>${fmt(SI)}</span>`;
 
   document.getElementById('r-principal').textContent = fmt(P);
   document.getElementById('r-interest').textContent = fmt(SI);
   document.getElementById('r-total').textContent = fmt(total);
 
-  durationLine.style.display = 'block';
-  results.style.display = 'grid';
-  hint.textContent = '';
+  hint.style.display = 'none';
+  outputBlock.style.display = 'block';
+  
+  // Smooth scroll down to results on mobile devices
+  setTimeout(() => {
+    document.querySelector('.app-content').scrollTo({
+      top: document.querySelector('.app-content').scrollHeight,
+      behavior: 'smooth'
+    });
+  }, 100);
 }
 </script>
